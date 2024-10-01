@@ -9,11 +9,12 @@ using Tech.Challenge.I.Infrastructure.RepositoryAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var currentEnvironment = builder.Environment.EnvironmentName;
+
 builder.Services.AddRouting(option => option.LowercaseUrls = true);
 
 builder.Services.AddHttpContextAccessor();
 
-//builder.Services.AddControllers();
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
@@ -51,9 +52,11 @@ builder.Services.AddSwaggerGen(c =>
     c.SchemaFilter<EnumSchemaFilter>();
 });
 
-builder.Services.AddInfrastructure(builder.Configuration);
-
-builder.Services.AddApplication(builder.Configuration);
+if (!IsIntegrationTests())
+{
+    builder.Services.AddInfrastructure(builder.Configuration, IsIntegrationTests());
+    builder.Services.AddApplication(builder.Configuration);
+}
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilters)));
 
@@ -87,9 +90,7 @@ void UpdateDatabase()
     using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
     using var context = serviceScope.ServiceProvider.GetService<TechChallengeContext>();
 
-    bool? databaseInMemory = context?.Database?.ProviderName?.Equals("Microsoft.EntityFrameworkCore.InMemory");
-
-    if (!databaseInMemory.HasValue || !databaseInMemory.Value)
+    if (!IsIntegrationTests())
     {
         var connection = builder.Configuration.GetConnection();
         var nomeDatabase = builder.Configuration.GetDatabaseName();
@@ -98,6 +99,13 @@ void UpdateDatabase()
 
         app.MigrateDatabase();
     }
+    else
+    {
+        var connection = builder.Configuration.GetConnection();
+        var nomeDatabase = builder.Configuration.GetDatabaseName();
+    }
 }
+
+bool IsIntegrationTests() => currentEnvironment == "IntegrationTests";
 
 public partial class Program { }

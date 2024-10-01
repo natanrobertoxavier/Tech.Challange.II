@@ -16,10 +16,13 @@ using Tech.Challenge.I.Infrastructure.RepositoryAccess.Repository;
 namespace Tech.Challenge.I.Infrastructure;
 public static class Initializer
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configurationManager)
+    public static void AddInfrastructure(
+        this IServiceCollection services, 
+        IConfiguration configurationManager, 
+        bool isIntegrationTest)
     {
-        AddFluentMigrator(services, configurationManager);
-        AddContext(services, configurationManager);
+        AddFluentMigrator(services, configurationManager, isIntegrationTest);
+        AddContext(services, configurationManager, isIntegrationTest);
         AddRepositories(services);
         AddWorkUnit(services);
         AddFactories(services);
@@ -30,27 +33,46 @@ public static class Initializer
         services.AddScoped<IWorkUnit, WorkUnit>();
     }
 
-    private static void AddFluentMigrator(IServiceCollection services, IConfiguration configurationManager)
+    private static void AddFluentMigrator(
+        IServiceCollection services, 
+        IConfiguration configurationManager,
+        bool isIntegrationTest)
     {
-        _ = bool.TryParse(configurationManager.GetSection("Settings:DatabaseInMemory").Value, out bool databaseInMemory);
-
-        if (!databaseInMemory)
+        if (!isIntegrationTest)
         {
             services.AddFluentMigratorCore().ConfigureRunner(c =>
                  c.AddMySql5()
                   .WithGlobalConnectionString(configurationManager.GetFullConnection())
                   .ScanIn(Assembly.Load("Tech.Challenge.I.Infrastructure")).For.All());
         }
+        else
+        {
+            services.AddFluentMigratorCore().ConfigureRunner(c =>
+            c.AddMySql5()
+                  .WithGlobalConnectionString(configurationManager.GetFullConnectionIntegrationTest())
+                  .ScanIn(Assembly.Load("Tech.Challenge.I.Infrastructure")).For.All());
+        }
     }
 
-    private static void AddContext(IServiceCollection services, IConfiguration configurationManager)
+    private static void AddContext(
+        IServiceCollection services, 
+        IConfiguration configurationManager,
+        bool isIntegrationTest)
     {
-        _ = bool.TryParse(configurationManager.GetSection("Settings:DatabaseInMemory").Value, out bool databaseInMemory);
-
-        if (!databaseInMemory)
+        if (!isIntegrationTest)
         {
             var versaoServidor = new MySqlServerVersion(new Version(8, 0, 26));
             var connectionString = configurationManager.GetFullConnection();
+
+            services.AddDbContext<TechChallengeContext>(dbContextoOpcoes =>
+            {
+                dbContextoOpcoes.UseMySql(connectionString, versaoServidor);
+            });
+        }
+        else
+        {
+            var versaoServidor = new MySqlServerVersion(new Version(8, 0, 26));
+            var connectionString = configurationManager.GetFullConnectionIntegrationTest();
 
             services.AddDbContext<TechChallengeContext>(dbContextoOpcoes =>
             {
