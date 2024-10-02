@@ -5,14 +5,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Tech.Challenge.I.Domain.Repositories;
 using Tech.Challenge.I.Domain.Repositories.User;
-using Tech.Challenge.I.Integration.Tests.Fakes;
+using Tech.Challenge.I.Integration.Tests.Fakes.Repositories;
 
 namespace Tech.Challenge.I.Integration.Tests.WebAPI.Controllers.Base;
 public abstract class  BaseControllerTest : IClassFixture<WebApplicationFactory<Program>>
 {
     protected readonly HttpClient _httpClient;
     protected static string ApplicationUrl => "https://localhost:7020/";
-    protected string ApiUrl => Path.Combine(ApplicationUrl);
+    protected static string ApiUrl => Path.Combine(ApplicationUrl);
 
     public BaseControllerTest()
     {
@@ -40,9 +40,9 @@ public abstract class  BaseControllerTest : IClassFixture<WebApplicationFactory<
 
     private static void ReplaceRepositories(IServiceCollection services)
     {
-        ReplaceService<IUserReadOnlyRepository, FakeUserReadOnlyReposytory>(services);
-        ReplaceService<IUserWriteOnlyRepository, FakeUserReadOnlyReposytory>(services);
-        ReplaceService<IUserUpdateOnlyRepository, FakeUserReadOnlyReposytory>(services);
+        ReplaceService<IUserReadOnlyRepository, FakeUserReposytory>(services);
+        ReplaceService<IUserWriteOnlyRepository, FakeUserReposytory>(services);
+        ReplaceService<IUserUpdateOnlyRepository, FakeUserReposytory>(services);
         ReplaceService<IWorkUnit, FakeWorkUnit>(services);
     }
 

@@ -93,18 +93,21 @@ void UpdateDatabase()
     if (!IsIntegrationTests())
     {
         var connection = builder.Configuration.GetConnection();
-        var nomeDatabase = builder.Configuration.GetDatabaseName();
+        var databaseName = builder.Configuration.GetDatabaseName();
 
-        Database.CreateDatabase(connection, nomeDatabase);
+        Database.CreateDatabase(connection, databaseName);
 
         app.MigrateDatabase();
     }
     else
     {
         var connection = builder.Configuration.GetConnection();
-        var nomeDatabase = builder.Configuration.GetIntegrationTestDatabaseName();
+        var databaseName = builder.Configuration.GetIntegrationTestDatabaseName();
 
-        Database.CreateDatabase(connection, nomeDatabase);
+        Environment.SetEnvironmentVariable("ConnectionString", connection);
+        Environment.SetEnvironmentVariable("IntegrationTestDatabase", databaseName);
+
+        Database.CreateDatabase(connection, databaseName);
 
         app.MigrateDatabase();
     }
