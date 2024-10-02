@@ -18,7 +18,9 @@ public class Database
 
         if (!registry.Any())
         {
-            myConnection.Execute($"CREATE DATABASE {databaseName}");
+            var result = myConnection.Execute($"CREATE DATABASE {databaseName}");
+
+            if (result == 0) throw new Exception("An error occurred while creating the database");
         }
     }
 }

@@ -23,11 +23,6 @@ public class UserRepository(
        await _context.Users.AsNoTracking()
             .FirstOrDefaultAsync(c => c.Email.Equals(email));
 
-    public Task<User> RecoverByEmailPasswordAsync(string email, string senha)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task Add(User user) =>
         await _context.Users.AddAsync(user);
 

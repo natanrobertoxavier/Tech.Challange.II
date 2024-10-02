@@ -15,9 +15,6 @@ public class TechChallengeProfile : Profile
     {
         CreateMap<Domain.Entities.RegionDDD, Communication.Response.ResponseRegionDDDJson>()
             .ForMember(destiny => destiny.Region, config => config.MapFrom(origin => EnumExtensions.GetEnumValueFromDescription<RegionResponseEnum>(origin.Region)));
-
-        //CreateMap<Domain.Entities.Contact, Communication.Response.ResponseContactJson>()
-        //    .ForMember(dest => dest.Region, config => config.Ignore());
     }
 
     private void RequestToEntity()

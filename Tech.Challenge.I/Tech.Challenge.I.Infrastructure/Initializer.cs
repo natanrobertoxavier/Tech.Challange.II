@@ -23,9 +23,13 @@ public static class Initializer
     {
         AddFluentMigrator(services, configurationManager, isIntegrationTest);
         AddContext(services, configurationManager, isIntegrationTest);
-        AddRepositories(services);
-        AddWorkUnit(services);
-        AddFactories(services);
+
+        if (!isIntegrationTest)
+        {
+            AddRepositories(services);
+            AddWorkUnit(services);
+            AddFactories(services);
+        }
     }
 
     private static void AddWorkUnit(IServiceCollection services)

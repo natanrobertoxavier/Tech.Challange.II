@@ -20,16 +20,16 @@ public class Version004 : Migration
         Execute.Sql(@"
                     START TRANSACTION;
 
-                    UPDATE techChallenge.dddregions
+                    UPDATE dddregions
                     SET userId = (
                         SELECT Id
-                        FROM techChallenge.users
+                        FROM users
                         ORDER BY RegistrationDate
                         LIMIT 1
                     )
                     WHERE EXISTS (
                         SELECT 1
-                        FROM techChallenge.users
+                        FROM users
                     );
                     
                     COMMIT;

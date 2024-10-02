@@ -52,7 +52,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SchemaFilter<EnumSchemaFilter>();
 });
 
-if (!IsIntegrationTests())
+//if (!IsIntegrationTests())
 {
     builder.Services.AddInfrastructure(builder.Configuration, IsIntegrationTests());
     builder.Services.AddApplication(builder.Configuration);
@@ -102,10 +102,14 @@ void UpdateDatabase()
     else
     {
         var connection = builder.Configuration.GetConnection();
-        var nomeDatabase = builder.Configuration.GetDatabaseName();
+        var nomeDatabase = builder.Configuration.GetIntegrationTestDatabaseName();
+
+        Database.CreateDatabase(connection, nomeDatabase);
+
+        app.MigrateDatabase();
     }
 }
 
-bool IsIntegrationTests() => currentEnvironment == "IntegrationTests";
+bool IsIntegrationTests() => currentEnvironment == "IntegratedTests";
 
 public partial class Program { }
