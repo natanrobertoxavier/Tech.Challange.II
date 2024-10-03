@@ -52,11 +52,8 @@ builder.Services.AddSwaggerGen(c =>
     c.SchemaFilter<EnumSchemaFilter>();
 });
 
-//if (!IsIntegrationTests())
-{
-    builder.Services.AddInfrastructure(builder.Configuration, IsIntegrationTests());
-    builder.Services.AddApplication(builder.Configuration);
-}
+builder.Services.AddInfrastructure(builder.Configuration, IsIntegrationTests());
+builder.Services.AddApplication(builder.Configuration);
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilters)));
 

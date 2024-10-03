@@ -4,5 +4,5 @@ public interface IUserReadOnlyRepository
 {
     Task<bool> ThereIsUserWithEmail(string email);
     Task<Entities.User> RecoverByEmailAsync(string email);
-    Task<Entities.User> RecoverEmailPasswordAsync(string email, string encryptedPassword);
+    Task<Entities.User> RecoverEmailPasswordAsync(string email, string password);
 }

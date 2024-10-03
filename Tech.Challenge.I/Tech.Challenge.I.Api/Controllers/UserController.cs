@@ -29,6 +29,7 @@ public class UserController : TechChallengeController
         [FromServices] IChangePasswordUseCase useCase,
         [FromBody] RequestChangePasswordJson request)
     {
+        var t = request.NewPassword;
         await useCase.Execute(request);
 
         return NoContent();

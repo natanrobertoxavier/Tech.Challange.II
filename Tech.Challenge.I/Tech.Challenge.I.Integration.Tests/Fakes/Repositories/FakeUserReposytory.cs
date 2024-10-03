@@ -11,29 +11,26 @@ public class FakeUserReposytory(
 {
     private readonly TechChallengeContext _context = context;
 
+#pragma warning disable CS8603 // Possível retorno de referência nula.
     public async Task Add(User user) =>
         await _context.Users.AddAsync(user);
 
-    public Task<User> RecoverByEmailAsync(string email)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<User> RecoverByEmailAsync(string email) =>
+       await _context.Users.AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Email.Equals(email));
 
-    public Task<User> RecoverById(Guid id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<User> RecoverById(Guid id) => await _context.Users.
+            FirstOrDefaultAsync(c => c.Id == id);
 
-    public Task<User> RecoverEmailPasswordAsync(string email, string encryptedPassword)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<User> RecoverEmailPasswordAsync(string email, string password) =>
+        await _context.Users.AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Email.Equals(email) &&
+                                 c.Password.Equals(password));
 
     public async Task<bool> ThereIsUserWithEmail(string email) =>
         await _context.Users.AnyAsync(c => c.Email.Equals(email));
 
-    public void Update(User user)
-    {
-        throw new NotImplementedException();
-    }
+    public void Update(User user) =>
+        _context.Users.Update(user);
+#pragma warning disable CS8603 // Possível retorno de referência nula.
 }
