@@ -1,0 +1,35 @@
+name: .NET Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core SDK $(dotnetSdkVersion)
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.x'
+
+    - name: Restore dependencies
+      run: dotnet restore '**/*.csproj'
+
+    - name: Build the project
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Publish the project
+      run: dotnet publish '**/*.csproj' --no-build --configuration Release --output ${{ github.workspace }}/publish
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: drop
+        path: ${{ github.workspace }}/publish
