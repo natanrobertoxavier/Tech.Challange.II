@@ -3,7 +3,7 @@ using System.Net;
 using Tech.Challenge.I.Exceptions;
 using Tech.Challenge.I.Integration.Tests.Fakes.Request;
 
-namespace Tech.Challenge.I.Integration.Tests.Api.Controllers.v1.Contact;
+namespace Tech.Challenge.I.Integration.Tests.Api.Controllers.v1.Contact.Register;
 public class ContactControllerTests() : BaseTestClient("")
 {
     private const string URI_REGION_DDD = "/api/v1/regionddd";
