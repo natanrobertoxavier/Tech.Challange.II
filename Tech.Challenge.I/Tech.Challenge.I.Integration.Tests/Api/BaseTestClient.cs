@@ -47,6 +47,15 @@ public abstract class BaseTestClient
         return await Client.PostAsync(metodo, new StringContent(jsonString, Encoding.UTF8, "application/json"));
     }
 
+    protected async Task<HttpResponseMessage> PostRequest(string metodo, object body, string token = "")
+    {
+        AuthorizeRequest(token);
+
+        var jsonString = JsonConvert.SerializeObject(body);
+
+        return await Client.PostAsync(metodo, new StringContent(jsonString, Encoding.UTF8, "application/json"));
+    }
+
     protected async Task<HttpResponseMessage> PutRequest(string method, object body, string token = "")
     {
         AuthorizeRequest(token);
