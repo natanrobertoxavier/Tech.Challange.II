@@ -36,7 +36,7 @@ public class UserControllerTests() : BaseTestClient("/api/v1/user")
         var user = Factory.RecoverUser();
         var password = Factory.RecoverPassword();
 
-        var request = new RequestLoginJsonBuilder()
+        var request = new RequestRegisterUserJsonBuilder()
             .WithEmail(user.Email)
             .WithPassword(password)
             .Build();
@@ -44,10 +44,92 @@ public class UserControllerTests() : BaseTestClient("/api/v1/user")
         // Act
         var response = await Client.PostAsJsonAsync(ControllerUri, request);
 
-
         // Assert
+        var result = await response.Content.ReadAsStringAsync();
+
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
+        result.Should().NotBeNull();
+        result.Contains(ErrorsMessages.EmailAlreadyRegistered);
+    }
+
+    [Fact]
+    public async Task UserController_ReturnsError_WhenUserEmailIsBlank()
+    {
+        // Arrange
+        var request = new RequestRegisterUserJsonBuilder()
+            .WithName(string.Empty)
+            .Build();
+
+        // Act
+        var response = await Client.PostAsJsonAsync(ControllerUri, request);
+
+        // Assert
         var result = await response.Content.ReadAsStringAsync();
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        result.Should().NotBeNull();
+        result.Contains(ErrorsMessages.BlankUserEmail);
+    }
+
+    [Fact]
+    public async Task UserController_ReturnsError_WhenPasswordIsBlank()
+    {
+        // Arrange
+        var request = new RequestRegisterUserJsonBuilder()
+            .WithPassword(string.Empty)
+            .Build();
+
+        // Act
+        var response = await Client.PostAsJsonAsync(ControllerUri, request);
+
+        // Assert
+        var result = await response.Content.ReadAsStringAsync();
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        result.Should().NotBeNull();
+        result.Contains(ErrorsMessages.BlankUserPassword);
+    }
+
+    [Fact]
+    public async Task UserController_ReturnsError_WhenPasswordIsInvalid()
+    {
+        // Arrange
+        var request = new RequestRegisterUserJsonBuilder()
+            .WithPassword("12345")
+            .Build();
+
+        // Act
+        var response = await Client.PostAsJsonAsync(ControllerUri, request);
+
+        // Assert
+        var result = await response.Content.ReadAsStringAsync();
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        result.Should().NotBeNull();
+        result.Contains(ErrorsMessages.MinimumSixCharacters);
+    }
+
+    [Fact]
+    public async Task UserController_ReturnsError_WhenEmailIsInvalid()
+    {
+        // Arrange
+        var request = new RequestRegisterUserJsonBuilder()
+            .WithEmail("invaid-email")
+            .Build();
+
+        // Act
+        var response = await Client.PostAsJsonAsync(ControllerUri, request);
+
+        // Assert
+        var result = await response.Content.ReadAsStringAsync();
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        result.Should().NotBeNull();
+        result.Contains(ErrorsMessages.InvalidUserEmail);
     }
 }
