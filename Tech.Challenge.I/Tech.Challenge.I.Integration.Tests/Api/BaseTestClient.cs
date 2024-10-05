@@ -71,6 +71,13 @@ public abstract class BaseTestClient
         return await Client.PutAsync(uri, new StringContent(jsonString, Encoding.UTF8, "application/json"));
     }
 
+    protected async Task<HttpResponseMessage> DeleteRequest(string uri, string token = "")
+    {
+        AuthorizeRequest(token);
+
+        return await Client.DeleteAsync(uri);
+    }
+
     private void AuthorizeRequest(string token)
     {
         if (!string.IsNullOrEmpty(token))

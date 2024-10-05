@@ -8,7 +8,7 @@ namespace Tech.Challenge.I.Integration.Tests.Api.Controllers.v1.RegionDDD.Recove
 public class RegionDDDControllerTests() : BaseTestClient("")
 {
     private const string URI_REGION_DDD = "/api/v1/regionddd";
-    private const string URI_RECOVER_REGION_DDD = "/api/v1/regionddd/ddd/by-region?region=";
+    private const string URI_RECOVER_REGION_DDD = "/api/v1/regionddd/ddd/by-region?region={0}";
 
     [Fact]
     public async Task RegionDDDController_OK_WhenDDDFound()
@@ -24,7 +24,7 @@ public class RegionDDDControllerTests() : BaseTestClient("")
 
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
-        var uri = string.Concat(URI_RECOVER_REGION_DDD, RegionRequestEnum.Sudeste.GetDescription());
+        var uri = string.Format(URI_RECOVER_REGION_DDD, RegionRequestEnum.Sudeste.GetDescription());
 
         // Act
         var response = await GetRequest(uri, token);
@@ -53,7 +53,7 @@ public class RegionDDDControllerTests() : BaseTestClient("")
 
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
-        var uri = string.Concat(URI_RECOVER_REGION_DDD, RegionRequestEnum.Sudeste.GetDescription());
+        var uri = string.Format(URI_RECOVER_REGION_DDD, RegionRequestEnum.Sudeste.GetDescription());
 
         // Act
         var response = await GetRequest(uri, token);
@@ -71,7 +71,7 @@ public class RegionDDDControllerTests() : BaseTestClient("")
         // Arrange
         var token = string.Empty;
 
-        var uri = string.Concat(URI_RECOVER_REGION_DDD, RegionRequestEnum.Sudeste.GetDescription());
+        var uri = string.Format(URI_RECOVER_REGION_DDD, RegionRequestEnum.Sudeste.GetDescription());
 
         // Act
         var response = await GetRequest(uri, string.Empty);

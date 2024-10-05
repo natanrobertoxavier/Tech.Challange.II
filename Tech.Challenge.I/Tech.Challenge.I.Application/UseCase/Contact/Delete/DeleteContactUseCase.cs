@@ -7,9 +7,9 @@ public class DeleteContactUseCase(
     IContactWriteOnlyRepository contactWriteOnlyRepository,
     IWorkUnit workUnit) : IDeleteContactUseCase
 {
-    private IContactReadOnlyRepository _contactReadOnlyRepository = contactReadOnlyRepository;
-    private IContactWriteOnlyRepository _contactWriteOnlyRepository = contactWriteOnlyRepository;
-    private IWorkUnit _workUnit = workUnit;
+    private readonly IContactReadOnlyRepository _contactReadOnlyRepository = contactReadOnlyRepository;
+    private readonly IContactWriteOnlyRepository _contactWriteOnlyRepository = contactWriteOnlyRepository;
+    private readonly IWorkUnit _workUnit = workUnit;
 
     public async Task<bool> Execute(Guid id)
     {

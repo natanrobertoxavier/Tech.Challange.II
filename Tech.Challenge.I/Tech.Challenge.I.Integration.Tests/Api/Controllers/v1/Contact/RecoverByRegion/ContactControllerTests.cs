@@ -9,7 +9,7 @@ public class ContactControllerTests() : BaseTestClient("")
 {
     private const string URI_REGION_DDD = "/api/v1/regionddd";
     private const string URI_REGISTER_CONTACT = "/api/v1/contact";
-    private const string URI_RECOVER_CONTACT = "api/v1/contact/contacts/by-region?region=";
+    private const string URI_RECOVER_CONTACT = "api/v1/contact/contacts/by-region?region={0}";
 
     [Fact]
     public async Task ContactController_OK_WhenContactIsCreated()
@@ -30,7 +30,7 @@ public class ContactControllerTests() : BaseTestClient("")
 
         await PostRequest(URI_REGISTER_CONTACT, requestRegisterContact, token);
 
-        var uri = string.Concat(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
+        var uri = string.Format(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
 
         // Act
         var response = await GetRequest(uri, token);
@@ -58,7 +58,7 @@ public class ContactControllerTests() : BaseTestClient("")
 
         var token = await Login(user.Email, password);
 
-        var uri = string.Concat(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
+        var uri = string.Format(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
 
         // Act
         var response = await GetRequest(uri, token);
@@ -73,7 +73,7 @@ public class ContactControllerTests() : BaseTestClient("")
         // Arrange
         var token = string.Empty;
 
-        var uri = string.Concat(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
+        var uri = string.Format(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
 
         // Act
         var response = await GetRequest(uri, token);
