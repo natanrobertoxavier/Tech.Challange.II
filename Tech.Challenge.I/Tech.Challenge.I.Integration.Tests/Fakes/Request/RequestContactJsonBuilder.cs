@@ -45,7 +45,7 @@ public class RequestContactJsonBuilder
         return this;
     }
 
-    public RequestContactJsonBuilder WithEmal(string value)
+    public RequestContactJsonBuilder WithEmail(string value)
     {
         _email = value;
         return this;

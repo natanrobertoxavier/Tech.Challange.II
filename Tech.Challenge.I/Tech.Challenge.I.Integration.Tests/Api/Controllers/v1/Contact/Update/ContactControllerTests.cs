@@ -1,16 +1,19 @@
-﻿using FluentAssertions;
+﻿using Azure;
+using FluentAssertions;
 using System.Net;
+using Tech.Challenge.I.Communication.Response;
 using Tech.Challenge.I.Exceptions;
 using Tech.Challenge.I.Integration.Tests.Fakes.Request;
 
-namespace Tech.Challenge.I.Integration.Tests.Api.Controllers.v1.Contact.Register;
+namespace Tech.Challenge.I.Integration.Tests.Api.Controllers.v1.Contact.Update;
 public class ContactControllerTests() : BaseTestClient("")
 {
     private const string URI_REGION_DDD = "/api/v1/regionddd";
     private const string URI_CONTACT = "/api/v1/contact";
+    private const string URI_UPDATE_CONTACT = "/api/v1/contact?id={0}";
 
     [Fact]
-    public async Task ContactController_OK_WhenContactIsCreated()
+    public async Task ContactController_NoContent_WhenContactIsUpdated()
     {
         // Arrange
         var user = Factory.RecoverUser();
@@ -26,11 +29,25 @@ public class ContactControllerTests() : BaseTestClient("")
         var requestRegisterContact = new RequestContactJsonBuilder()
             .Build();
 
+        await PostRequest(URI_CONTACT, requestRegisterContact, token);
+
+        var contactRegistered = await GetContactRegistered(await GetRequest(URI_CONTACT, token));
+
+        var requestUpdateContact = new RequestContactJsonBuilder()
+            .WithFirstName("New Name")
+            .WithLastName(contactRegistered.LastName)
+            .WithDDD(contactRegistered.DDD)
+            .WithPhoneNumber(contactRegistered.PhoneNumber)
+            .WithEmail(contactRegistered.Email)
+            .Build();
+
+        var uri = string.Format(URI_UPDATE_CONTACT, contactRegistered.ContactId);
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
     [Fact]
@@ -39,11 +56,13 @@ public class ContactControllerTests() : BaseTestClient("")
         // Arrange
         var token = string.Empty;
 
-        var requestRegisterContact = new RequestContactJsonBuilder()
+        var requestUpdateContact = new RequestContactJsonBuilder()
             .Build();
 
+        var uri = string.Format(URI_UPDATE_CONTACT, Guid.NewGuid());
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -64,11 +83,24 @@ public class ContactControllerTests() : BaseTestClient("")
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
         var requestRegisterContact = new RequestContactJsonBuilder()
-            .WithFirstName(string.Empty)
             .Build();
 
+        await PostRequest(URI_CONTACT, requestRegisterContact, token);
+
+        var contactRegistered = await GetContactRegistered(await GetRequest(URI_CONTACT, token));
+
+        var requestUpdateContact = new RequestContactJsonBuilder()
+            .WithFirstName(string.Empty)
+            .WithLastName(contactRegistered.LastName)
+            .WithDDD(contactRegistered.DDD)
+            .WithPhoneNumber(contactRegistered.PhoneNumber)
+            .WithEmail(contactRegistered.Email)
+            .Build();
+
+        var uri = string.Format(URI_UPDATE_CONTACT, contactRegistered.ContactId);
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
@@ -92,11 +124,24 @@ public class ContactControllerTests() : BaseTestClient("")
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
         var requestRegisterContact = new RequestContactJsonBuilder()
-            .WithLastName(string.Empty)
             .Build();
 
+        await PostRequest(URI_CONTACT, requestRegisterContact, token);
+
+        var contactRegistered = await GetContactRegistered(await GetRequest(URI_CONTACT, token));
+
+        var requestUpdateContact = new RequestContactJsonBuilder()
+            .WithFirstName(contactRegistered.FirstName)
+            .WithLastName(string.Empty)
+            .WithDDD(contactRegistered.DDD)
+            .WithPhoneNumber(contactRegistered.PhoneNumber)
+            .WithEmail(contactRegistered.Email)
+            .Build();
+
+        var uri = string.Format(URI_UPDATE_CONTACT, contactRegistered.ContactId);
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
@@ -120,11 +165,24 @@ public class ContactControllerTests() : BaseTestClient("")
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
         var requestRegisterContact = new RequestContactJsonBuilder()
-            .WithDDD(14)
             .Build();
 
+        await PostRequest(URI_CONTACT, requestRegisterContact, token);
+
+        var contactRegistered = await GetContactRegistered(await GetRequest(URI_CONTACT, token));
+
+        var requestUpdateContact = new RequestContactJsonBuilder()
+            .WithFirstName(contactRegistered.FirstName)
+            .WithLastName(contactRegistered.LastName)
+            .WithDDD(88)
+            .WithPhoneNumber(contactRegistered.PhoneNumber)
+            .WithEmail(contactRegistered.Email)
+            .Build();
+
+        var uri = string.Format(URI_UPDATE_CONTACT, contactRegistered.ContactId);
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
@@ -148,11 +206,24 @@ public class ContactControllerTests() : BaseTestClient("")
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
         var requestRegisterContact = new RequestContactJsonBuilder()
-            .WithPhoneNumber(string.Empty)
             .Build();
 
+        await PostRequest(URI_CONTACT, requestRegisterContact, token);
+
+        var contactRegistered = await GetContactRegistered(await GetRequest(URI_CONTACT, token));
+
+        var requestUpdateContact = new RequestContactJsonBuilder()
+            .WithFirstName(contactRegistered.FirstName)
+            .WithLastName(contactRegistered.LastName)
+            .WithDDD(contactRegistered.DDD)
+            .WithPhoneNumber(string.Empty)
+            .WithEmail(contactRegistered.Email)
+            .Build();
+
+        var uri = string.Format(URI_UPDATE_CONTACT, contactRegistered.ContactId);
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
@@ -176,11 +247,24 @@ public class ContactControllerTests() : BaseTestClient("")
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
         var requestRegisterContact = new RequestContactJsonBuilder()
+            .Build();
+
+        await PostRequest(URI_CONTACT, requestRegisterContact, token);
+
+        var contactRegistered = await GetContactRegistered(await GetRequest(URI_CONTACT, token));
+
+        var requestUpdateContact = new RequestContactJsonBuilder()
+            .WithFirstName(contactRegistered.FirstName)
+            .WithLastName(contactRegistered.LastName)
+            .WithDDD(contactRegistered.DDD)
+            .WithPhoneNumber(contactRegistered.PhoneNumber)
             .WithEmail(string.Empty)
             .Build();
 
+        var uri = string.Format(URI_UPDATE_CONTACT, contactRegistered.ContactId);
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
@@ -204,17 +288,30 @@ public class ContactControllerTests() : BaseTestClient("")
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
         var requestRegisterContact = new RequestContactJsonBuilder()
+            .Build();
+
+        await PostRequest(URI_CONTACT, requestRegisterContact, token);
+
+        var contactRegistered = await GetContactRegistered(await GetRequest(URI_CONTACT, token));
+
+        var requestUpdateContact = new RequestContactJsonBuilder()
+            .WithFirstName(contactRegistered.FirstName)
+            .WithLastName(contactRegistered.LastName)
+            .WithDDD(contactRegistered.DDD)
+            .WithPhoneNumber(contactRegistered.PhoneNumber)
             .WithEmail("invalid-email")
             .Build();
 
+        var uri = string.Format(URI_UPDATE_CONTACT, contactRegistered.ContactId);
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        result.Contains(ErrorsMessages.BlankEmail);
+        result.Contains(ErrorsMessages.InvalidEmail);
     }
 
     [Fact]
@@ -232,45 +329,36 @@ public class ContactControllerTests() : BaseTestClient("")
         await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
 
         var requestRegisterContact = new RequestContactJsonBuilder()
-            .WithPhoneNumber("99-0000")
-            .Build();
-
-        // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
-
-        // Assert
-        var result = await response.Content.ReadAsStringAsync();
-
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        result.Contains(ErrorsMessages.BlankEmail);
-    }
-
-    [Fact]
-    public async Task ContactController_BadRequest_WhenContactAlreadyRegistered()
-    {
-        // Arrange
-        var user = Factory.RecoverUser();
-        var password = Factory.RecoverPassword();
-
-        var token = await Login(user.Email, password);
-
-        var requestRegisterDDD = new RequestRegionDDDJsonBuilder()
-            .Build();
-
-        await PostRequest(URI_REGION_DDD, requestRegisterDDD, token);
-
-        var requestRegisterContact = new RequestContactJsonBuilder()
             .Build();
 
         await PostRequest(URI_CONTACT, requestRegisterContact, token);
 
+        var contactRegistered = await GetContactRegistered(await GetRequest(URI_CONTACT, token));
+
+        var requestUpdateContact = new RequestContactJsonBuilder()
+            .WithFirstName(contactRegistered.FirstName)
+            .WithLastName(contactRegistered.LastName)
+            .WithDDD(contactRegistered.DDD)
+            .WithPhoneNumber("99-120")
+            .WithEmail(contactRegistered.Email)
+            .Build();
+
+        var uri = string.Format(URI_UPDATE_CONTACT, contactRegistered.ContactId);
+
         // Act
-        var response = await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        var response = await PutRequest(uri, requestUpdateContact, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        result.Contains(ErrorsMessages.ContactAlreadyRegistered);
+        result.Contains(ErrorsMessages.InvalidPhoneNumber);
+    }
+
+    private static async Task<ResponseContactJson> GetContactRegistered(HttpResponseMessage httpResponseMessage)
+    {
+        var response = await DeserializeResponse<IEnumerable<ResponseContactJson>>(httpResponseMessage);
+
+        return response.FirstOrDefault() ?? new ResponseContactJson();
     }
 }

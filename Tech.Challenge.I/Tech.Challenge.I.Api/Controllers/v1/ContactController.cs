@@ -83,7 +83,7 @@ public class ContactController : TechChallengeController
     {
         await useCase.Execute(id, request);
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete]

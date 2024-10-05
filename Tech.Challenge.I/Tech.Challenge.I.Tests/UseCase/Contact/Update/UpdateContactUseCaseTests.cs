@@ -6,6 +6,7 @@ using Tech.Challenge.I.Domain.Entities;
 using Tech.Challenge.I.Domain.Repositories;
 using Tech.Challenge.I.Domain.Repositories.Contact;
 using Tech.Challenge.I.Domain.Repositories.DDD;
+using Tech.Challenge.I.Exceptions;
 using Tech.Challenge.I.Exceptions.ExceptionBase;
 
 namespace Tech.Challenge.I.Tests.UseCase.Contact.Update;
@@ -31,9 +32,30 @@ public class UpdateContactUseCaseTests
     public async Task Execute_ShouldUpdateContact_WhenValidRequestAndDDD()
     {
         // Arrange
+        _regionDDDReadOnlyRepositoryMock.Setup(x => x.RecoverListByDDDAsync(11))
+            .ReturnsAsync(
+            new List<RegionDDD>()
+            { 
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    DDD = 11,
+                    Region = "Sudeste",
+                    RegistrationDate = DateTime.Now,
+                    UserId = Guid.NewGuid()
+                }
+            });
+
         var id = Guid.NewGuid();
 
-        var request = new RequestContactJson { DDD = 11, PhoneNumber = "99999-9999" };
+        var request = new RequestContactJson
+        {
+            DDD = 11,
+            PhoneNumber = "99999-9999",
+            Email = "email@email.com",
+            FirstName = "John",
+            LastName = "Cena"
+        };
 
         var contactToUpdate = new Domain.Entities.Contact();
 
@@ -77,7 +99,7 @@ public class UpdateContactUseCaseTests
 
 
     [Fact]
-    public async Task Execute_ShouldThrowException_WhenCommitFails()
+    public async Task Execute_ShouldThrowException_WhenValidateFails()
     {
         // Arrange
         var id = Guid.NewGuid();
@@ -100,28 +122,13 @@ public class UpdateContactUseCaseTests
             .Setup(x => x.Commit())
             .ThrowsAsync(new Exception("Commit failed"));
 
-        // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _useCase.Execute(id, request));
+        // Act
+        var result = await Assert.ThrowsAsync<ValidationErrorsException>(() => _useCase.Execute(id, request));
 
-        _contactWriteOnlyRepositoryMock.Verify(x => x.Update(contactToUpdate), Times.Once);
-    }
-
-    [Fact]
-    public async Task Execute_ShouldThrowException_WhenUnexpectedErrorOccurs()
-    {
-        // Arrange
-        var id = Guid.NewGuid();
-
-        var request = new RequestContactJson { DDD = 11, PhoneNumber = "99999-9999" };
-
-        _mapperMock
-            .Setup(x => x.Map<Domain.Entities.Contact>(request))
-            .Throws(new Exception("Unexpected error"));
-
-        // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _useCase.Execute(id, request));
-
-        _contactWriteOnlyRepositoryMock.Verify(x => x.Update(It.IsAny<Domain.Entities.Contact>()), Times.Never);
-        _workUnitMock.Verify(x => x.Commit(), Times.Never);
+        //Assert
+        result.ErrorMessages.Contains(ErrorsMessages.BlankFirstName);
+        result.ErrorMessages.Contains(ErrorsMessages.BlankLastName);
+        result.ErrorMessages.Contains(ErrorsMessages.BlankEmail);
+        result.ErrorMessages.Contains(ErrorsMessages.DDDNotFound);
     }
 }

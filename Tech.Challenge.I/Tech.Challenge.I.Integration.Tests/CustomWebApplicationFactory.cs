@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tech.Challenge.I.Domain.Entities;
-using Tech.Challenge.I.Domain.Repositories;
-using Tech.Challenge.I.Domain.Repositories.User;
 using Tech.Challenge.I.Infrastructure.RepositoryAccess;
-using Tech.Challenge.I.Integration.Tests.Fakes.Repositories;
 
 namespace Tech.Challenge.I.Integration.Tests;
 public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
@@ -22,7 +19,6 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
         builder.ConfigureServices(services =>
         {
             ReplaceDatabase(services);
-            ReplaceRepositories(services);
         });
 
         builder.UseEnvironment("IntegrationTests");
@@ -39,26 +35,6 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
     public User RecoverUser() => _user;
 
     public string RecoverPassword() => _password;
-
-    private static void ReplaceRepositories(IServiceCollection services)
-    {
-        ReplaceRepository<IUserReadOnlyRepository, UserRepositoryFake>(services);
-        ReplaceRepository<IUserWriteOnlyRepository, UserRepositoryFake>(services);
-        ReplaceRepository<IUserUpdateOnlyRepository, UserRepositoryFake>(services);
-        ReplaceRepository<IWorkUnit, WorkUnitFake>(services);
-    }
-
-    private static void ReplaceRepository<TInterface, TImplementation>(IServiceCollection services)
-        where TInterface : class
-        where TImplementation : class, TInterface
-    {
-        var serviceDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(TInterface));
-
-        if (serviceDescriptor != null)
-            services.Remove(serviceDescriptor);
-
-        services.AddTransient<TInterface, TImplementation>();
-    }
 
     private void ReplaceDatabase(IServiceCollection services)
     {

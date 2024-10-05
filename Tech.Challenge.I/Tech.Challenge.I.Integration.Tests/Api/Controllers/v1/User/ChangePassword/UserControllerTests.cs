@@ -22,10 +22,10 @@ public class UserControllerTests() : BaseTestClient("")
             .Build();
 
         // Act
-        var resposta = await PutRequest(CHANGE_PASSWORD, request, token);
+        var response = await PutRequest(CHANGE_PASSWORD, request, token);
 
         // Assert
-        resposta.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
 
     [Fact]
