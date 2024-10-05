@@ -58,7 +58,7 @@ public class ContactController : TechChallengeController
     }
 
     [HttpGet]
-    [Route("Contacts/By-DDD")]
+    [Route("contacts/by-ddd")]
     [ProducesResponseType(typeof(IEnumerable<ResponseContactJson>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> RecoverContactsByDDD(

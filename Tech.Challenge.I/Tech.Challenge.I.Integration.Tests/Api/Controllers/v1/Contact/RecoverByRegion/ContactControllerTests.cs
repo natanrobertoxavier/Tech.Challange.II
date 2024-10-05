@@ -1,12 +1,15 @@
 ﻿using FluentAssertions;
 using System.Net;
+using Tech.Challenge.I.Communication;
+using Tech.Challenge.I.Communication.Request.Enum;
 using Tech.Challenge.I.Integration.Tests.Fakes.Request;
 
-namespace Tech.Challenge.I.Integration.Tests.Api.Controllers.v1.Contact.RecoverAll;
+namespace Tech.Challenge.I.Integration.Tests.Api.Controllers.v1.Contact.RecoverByRegion;
 public class ContactControllerTests() : BaseTestClient("")
 {
     private const string URI_REGION_DDD = "/api/v1/regionddd";
-    private const string URI_CONTACT = "/api/v1/contact";
+    private const string URI_REGISTER_CONTACT = "/api/v1/contact";
+    private const string URI_RECOVER_CONTACT = "api/v1/contact/contacts/by-region?region=";
 
     [Fact]
     public async Task ContactController_OK_WhenContactIsCreated()
@@ -25,10 +28,12 @@ public class ContactControllerTests() : BaseTestClient("")
         var requestRegisterContact = new RequestContactJsonBuilder()
             .Build();
 
-        await PostRequest(URI_CONTACT, requestRegisterContact, token);
+        await PostRequest(URI_REGISTER_CONTACT, requestRegisterContact, token);
+
+        var uri = string.Concat(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
 
         // Act
-        var response = await GetRequest(URI_CONTACT, token);
+        var response = await GetRequest(uri, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
@@ -53,14 +58,13 @@ public class ContactControllerTests() : BaseTestClient("")
 
         var token = await Login(user.Email, password);
 
+        var uri = string.Concat(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
+
         // Act
-        var response = await GetRequest(URI_CONTACT, token);
+        var response = await GetRequest(uri, token);
 
         // Assert
-        var result = await response.Content.ReadAsStringAsync();
-
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        result.Should().BeNullOrEmpty();
     }
 
     [Fact]
@@ -69,8 +73,10 @@ public class ContactControllerTests() : BaseTestClient("")
         // Arrange
         var token = string.Empty;
 
+        var uri = string.Concat(URI_RECOVER_CONTACT, RegionRequestEnum.Sudeste.GetDescription());
+
         // Act
-        var response = await GetRequest(URI_CONTACT, token);
+        var response = await GetRequest(uri, token);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
