@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Runtime.Intrinsics.Arm;
 using Tech.Challenge.I.Communication.Response;
 using Tech.Challenge.I.Exceptions;
 using Tech.Challenge.I.Integration.Tests.Fakes.Request;

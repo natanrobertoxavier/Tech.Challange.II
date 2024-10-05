@@ -36,19 +36,6 @@ public class CustomWebApplicationFactory<TStartup>: WebApplicationFactory<TStart
     public TechChallengeContext GetContext() => 
         _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<TechChallengeContext>();
 
-    //public void SeedData(params object[] data)
-    //{
-    //    using (var scope = _serviceProvider.CreateScope())
-    //    {
-    //        var db = scope.ServiceProvider.GetRequiredService<TechChallengeContext>();
-
-    //        db.AddRange(data);
-    //        db.SaveChanges();
-
-    //        (_user, _password) = ContextSeedInMemory.Seed(db);
-    //    }
-    //}
-
     public User RecoverUser() => _user;
 
     public string RecoverPassword() => _password;
@@ -80,12 +67,6 @@ public class CustomWebApplicationFactory<TStartup>: WebApplicationFactory<TStart
 
         services.Remove(descriptor);
 
-        //var databaseName = Guid.NewGuid().ToString();
-
-        //services.AddDbContext<TechChallengeContext>(options =>
-        //{
-        //    options.UseInMemoryDatabase(databaseName);
-        //});
         var provider = services.AddEntityFrameworkInMemoryDatabase().BuildServiceProvider();
 
         services.AddDbContext<TechChallengeContext>(options =>
