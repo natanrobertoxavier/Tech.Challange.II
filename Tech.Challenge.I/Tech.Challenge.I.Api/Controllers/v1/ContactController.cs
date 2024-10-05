@@ -10,7 +10,7 @@ using Tech.Challenge.I.Communication.Request.Enum;
 using Tech.Challenge.I.Communication.Response;
 using Tech.Challenge.I.Exceptions;
 
-namespace Tech.Challenge.I.Api.Controllers;
+namespace Tech.Challenge.I.Api.Controllers.v1;
 
 [ServiceFilter(typeof(AuthenticatedUserAttribute))]
 public class ContactController : TechChallengeController

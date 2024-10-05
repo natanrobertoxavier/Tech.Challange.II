@@ -7,7 +7,7 @@ using Tech.Challenge.I.Communication.Request;
 using Tech.Challenge.I.Communication.Request.Enum;
 using Tech.Challenge.I.Communication.Response;
 
-namespace Tech.Challenge.I.Api.Controllers;
+namespace Tech.Challenge.I.Api.Controllers.v1;
 
 [ServiceFilter(typeof(AuthenticatedUserAttribute))]
 public class RegionDDDController : TechChallengeController

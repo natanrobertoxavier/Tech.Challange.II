@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Tech.Challenge.I.Api.Controllers;
+using Tech.Challenge.I.Api.Controllers.v1;
 using Tech.Challenge.I.Application.UseCase.User.ChangePassword;
 using Tech.Challenge.I.Application.UseCase.User.Register;
 using Tech.Challenge.I.Communication.Request;

@@ -5,7 +5,7 @@ using Tech.Challenge.I.Application.UseCase.User.Register;
 using Tech.Challenge.I.Communication.Request;
 using Tech.Challenge.I.Communication.Response;
 
-namespace Tech.Challenge.I.Api.Controllers;
+namespace Tech.Challenge.I.Api.Controllers.v1;
 
 public class UserController : TechChallengeController
 {
