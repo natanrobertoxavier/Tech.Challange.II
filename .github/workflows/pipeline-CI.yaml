@@ -26,10 +26,10 @@ jobs:
       run: dotnet build Tech.Challenge.I/Tech.Challenge.I.sln --no-restore --configuration Release
 
     - name: Run unit tests
-      run: dotnet test Tech.Challenge.I/Tech.Challenge.I.sln --no-build --configuration Release --filter Category!=integration --logger "trx;LogFileName=unit-test-results.trx"
+      run: dotnet test Tech.Challenge.I/Tech.Challenge.I.sln --no-build --configuration Release --filter Category!=Integration --logger "trx;LogFileName=unit-test-results.trx"
 
     - name: Run integration tests
-      run: dotnet test path/to/your-solution.sln --no-build --configuration Release --filter Category=integration --logger "trx;LogFileName=integration-test-results.trx"
+      run: dotnet test Tech.Challenge.I/Tech.Challenge.I.sln --no-build --configuration Release --filter Category=integration --logger "trx;LogFileName=integration-test-results.trx"
 
     - name: Publish the project
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
