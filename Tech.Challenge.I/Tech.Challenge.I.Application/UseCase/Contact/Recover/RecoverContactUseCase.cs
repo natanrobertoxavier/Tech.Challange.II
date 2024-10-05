@@ -3,6 +3,8 @@ using Tech.Challenge.I.Communication.Request.Enum;
 using Tech.Challenge.I.Communication.Response;
 using Tech.Challenge.I.Domain.Repositories.Contact;
 using Tech.Challenge.I.Domain.Repositories.Factories;
+using Tech.Challenge.I.Exceptions.ExceptionBase;
+using Tech.Challenge.I.Exceptions;
 
 namespace Tech.Challenge.I.Application.UseCase.Contact.Recover;
 public class RecoverContactUseCase(
@@ -34,7 +36,8 @@ public class RecoverContactUseCase(
 
         var entities = await _contactReadOnlyRepository.RecoverByDDDIdAsync(regionIds);
 
-        if (entities is not null)
+        if (entities is not null &&
+            entities.Any())
             return await MapToResponseContactJson(entities);
 
         return new List<ResponseContactJson>();
@@ -85,7 +88,8 @@ public class RecoverContactUseCase(
 
         using (scope)
         {
-            var regionDDD = await regionReadOnlyRepository.RecoverByDDDAsync(ddd);
+            var regionDDD = await regionReadOnlyRepository.RecoverByDDDAsync(ddd) ??
+                throw new ValidationErrorsException(new List<string>() { ErrorsMessages.DDDNotFound });
 
             return regionDDD.Id;
         }
