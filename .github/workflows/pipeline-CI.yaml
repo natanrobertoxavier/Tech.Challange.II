@@ -1,34 +1,50 @@
-name: .NET Build and Publish
+name: .NET Build, Unit, and Integration Tests, and Publish
 
 on:
   push:
     branches:
       - main
+      - develop
+      - 'release/*'
+      - 'feature/*'
 
 jobs:
   build:
-    name: Build and Publish
+    name: Build, Test and Publish
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup .NET Core SDK $(dotnetSdkVersion)
+    - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.x'
 
     - name: Restore dependencies
-      run: dotnet restore '**/*.csproj'
+      run: |
+        find . -name '*.csproj' | xargs dotnet restore
 
     - name: Build the project
-      run: dotnet build --no-restore --configuration Release
+      run: |
+        find . -name '*.csproj' | xargs dotnet build --no-restore --configuration Release
+
+    - name: Run unit tests
+      run: |
+        find . -name '*.csproj' | xargs dotnet test --no-build --configuration Release --filter Category!=Integration --logger "trx;LogFileName=unit-test-results.trx"
+
+    - name: Run integration tests
+      run: |
+        find . -name '*.csproj' | xargs dotnet test --no-build --configuration Release --filter Category=Integration --logger "trx;LogFileName=integration-test-results.trx"
 
     - name: Publish the project
-      run: dotnet publish '**/*.csproj' --no-build --configuration Release --output ${{ github.workspace }}/publish
+      if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
+      run: |
+        find . -name '*.csproj' | xargs dotnet publish --no-build --configuration Release --output ${{ github.workspace }}/publish
 
     - name: Upload artifact
+      if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
       uses: actions/upload-artifact@v3
       with:
         name: drop
