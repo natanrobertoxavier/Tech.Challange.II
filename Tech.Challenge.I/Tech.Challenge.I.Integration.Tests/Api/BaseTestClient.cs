@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Tech.Challenge.I.Domain.Entities;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json;
+using System.Text;
 using System.Text.Json;
 using Tech.Challenge.I.Communication.Request;
-using System.Text;
 
 namespace Tech.Challenge.I.Integration.Tests.Api;
 public abstract class BaseTestClient

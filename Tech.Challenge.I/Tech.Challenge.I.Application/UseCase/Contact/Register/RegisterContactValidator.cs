@@ -9,11 +9,11 @@ public class RegisterContactValidator : AbstractValidator<RequestContactJson>
     public RegisterContactValidator()
     {
         RuleFor(p => p.FirstName)
-            .NotNull()
+            .NotEmpty()
             .WithMessage(ErrorsMessages.BlankFirstName);
 
         RuleFor(p => p.LastName)
-            .NotNull()
+            .NotEmpty()
             .WithMessage(ErrorsMessages.BlankLastName);
 
         RuleFor(p => p.DDD)
@@ -21,11 +21,11 @@ public class RegisterContactValidator : AbstractValidator<RequestContactJson>
             .WithMessage(ErrorsMessages.BlankDDD);
 
         RuleFor(p => p.PhoneNumber)
-            .NotNull()
+            .NotEmpty()
             .WithMessage(ErrorsMessages.BlankPhoneNumber);
 
-        RuleFor(p => p.PhoneNumber)
-            .NotNull()
+        RuleFor(p => p.Email)
+            .NotEmpty()
             .WithMessage(ErrorsMessages.BlankEmail);
 
         When(c => !string.IsNullOrEmpty(c.Email), () =>

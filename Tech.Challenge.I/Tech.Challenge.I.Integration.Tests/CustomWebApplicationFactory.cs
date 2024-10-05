@@ -11,7 +11,7 @@ using Tech.Challenge.I.Infrastructure.RepositoryAccess;
 using Tech.Challenge.I.Integration.Tests.Fakes.Repositories;
 
 namespace Tech.Challenge.I.Integration.Tests;
-public class CustomWebApplicationFactory<TStartup>: WebApplicationFactory<TStartup> where TStartup : class
+public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
 {
     private ServiceProvider _serviceProvider;
     private User _user;
@@ -19,7 +19,7 @@ public class CustomWebApplicationFactory<TStartup>: WebApplicationFactory<TStart
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureServices(services => 
+        builder.ConfigureServices(services =>
         {
             ReplaceDatabase(services);
             ReplaceRepositories(services);
@@ -27,13 +27,13 @@ public class CustomWebApplicationFactory<TStartup>: WebApplicationFactory<TStart
 
         builder.UseEnvironment("IntegrationTests");
 
-        builder.ConfigureAppConfiguration((_, appConfiguration) => 
-        { 
+        builder.ConfigureAppConfiguration((_, appConfiguration) =>
+        {
             appConfiguration.AddJsonFile("appsettings.IntegrationTests.json", optional: false, reloadOnChange: true);
         });
     }
 
-    public TechChallengeContext GetContext() => 
+    public TechChallengeContext GetContext() =>
         _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<TechChallengeContext>();
 
     public User RecoverUser() => _user;

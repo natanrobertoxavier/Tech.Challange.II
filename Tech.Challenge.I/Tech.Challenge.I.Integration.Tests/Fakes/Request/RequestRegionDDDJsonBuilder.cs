@@ -26,4 +26,5 @@ public class RequestRegionDDDJsonBuilder
     {
         _dDD = value;
         return this;
-    }}
+    }
+}

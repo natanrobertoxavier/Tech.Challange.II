@@ -1,6 +1,6 @@
-﻿using System.Net.Http.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
 using System.Net;
+using System.Net.Http.Json;
 using Tech.Challenge.I.Communication.Response;
 using Tech.Challenge.I.Integration.Tests.Fakes.Request;
 
