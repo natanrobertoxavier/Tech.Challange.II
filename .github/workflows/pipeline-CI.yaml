@@ -20,20 +20,20 @@ jobs:
         dotnet-version: '8.x'
 
     - name: Restore dependencies
-      run: dotnet restore path/to/your-solution.sln
+      run: dotnet restore Tech.Challenge.I/Tech.Challenge.I.sln
 
     - name: Build the project
-      run: dotnet build path/to/your-solution.sln --no-restore --configuration Release
+      run: dotnet build Tech.Challenge.I/Tech.Challenge.I.sln --no-restore --configuration Release
 
     - name: Run unit tests
-      run: dotnet test path/to/your-solution.sln --no-build --configuration Release --filter Category!=Integration --logger "trx;LogFileName=unit-test-results.trx"
+      run: dotnet test Tech.Challenge.I/Tech.Challenge.I.sln --no-build --configuration Release --filter Category!=Integration --logger "trx;LogFileName=unit-test-results.trx"
 
     - name: Run integration tests
-      run: dotnet test path/to/your-solution.sln --no-build --configuration Release --filter Category=Integration --logger "trx;LogFileName=integration-test-results.trx"
+      run: dotnet test Tech.Challenge.I/Tech.Challenge.I.sln --no-build --configuration Release --filter Category=Integration --logger "trx;LogFileName=integration-test-results.trx"
 
     - name: Publish the project
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
-      run: dotnet publish path/to/your-solution.sln --no-build --configuration Release --output ${{ github.workspace }}/publish
+      run: dotnet publish Tech.Challenge.I/Tech.Challenge.I.sln --no-build --configuration Release --output ${{ github.workspace }}/publish
 
     - name: Upload artifact
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
