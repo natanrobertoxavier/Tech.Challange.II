@@ -40,34 +40,46 @@ public abstract class BaseTestClient
         return responseData.RootElement.GetProperty("token").GetString();
     }
 
-    protected async Task<HttpResponseMessage> PostRequest(string metodo, object body)
+    protected async Task<HttpResponseMessage> PostRequest(string uri, object body)
     {
         var jsonString = JsonConvert.SerializeObject(body);
 
-        return await Client.PostAsync(metodo, new StringContent(jsonString, Encoding.UTF8, "application/json"));
+        return await Client.PostAsync(uri, new StringContent(jsonString, Encoding.UTF8, "application/json"));
     }
 
-    protected async Task<HttpResponseMessage> PostRequest(string metodo, object body, string token = "")
+    protected async Task<HttpResponseMessage> PostRequest(string uri, object body, string token = "")
     {
         AuthorizeRequest(token);
 
         var jsonString = JsonConvert.SerializeObject(body);
 
-        return await Client.PostAsync(metodo, new StringContent(jsonString, Encoding.UTF8, "application/json"));
+        return await Client.PostAsync(uri, new StringContent(jsonString, Encoding.UTF8, "application/json"));
     }
 
-    protected async Task<HttpResponseMessage> PutRequest(string method, object body, string token = "")
+    protected async Task<HttpResponseMessage> GetRequest(string uri, string token = "")
+    {
+        AuthorizeRequest(token);
+
+        return await Client.GetAsync(uri);
+    }
+
+    protected async Task<HttpResponseMessage> PutRequest(string uri, object body, string token = "")
     {
         AuthorizeRequest(token);
 
         var jsonString = JsonConvert.SerializeObject(body);
 
-        return await Client.PutAsync(method, new StringContent(jsonString, Encoding.UTF8, "application/json"));
+        return await Client.PutAsync(uri, new StringContent(jsonString, Encoding.UTF8, "application/json"));
     }
 
     private void AuthorizeRequest(string token)
     {
         if (!string.IsNullOrEmpty(token))
+        {
+            if (Client.DefaultRequestHeaders.Contains("Authorization"))
+                Client.DefaultRequestHeaders.Remove("Authorization");
+
             Client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+        }
     }
 }

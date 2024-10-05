@@ -4,12 +4,12 @@ using Tech.Challenge.I.Exceptions;
 using Tech.Challenge.I.Integration.Tests.Fakes.Request;
 
 namespace Tech.Challenge.I.Integration.Tests.Api.Controllers.v1.RegionDDD.Register;
-public class RegionDDDController() : BaseTestClient("")
+public class RegionDDDControllerTests() : BaseTestClient("")
 {
-    private const string REGISTER_CONTACT = "/api/v1/regionddd";
+    private const string REGISTER_DDD = "/api/v1/regionddd";
 
     [Fact]
-    public async Task UserController_Created_WhenDDDRegisteredSuccessfully()
+    public async Task RegionDDDController_Created_WhenDDDRegisteredSuccessfully()
     {
         // Arrange
         var user = Factory.RecoverUser();
@@ -21,14 +21,14 @@ public class RegionDDDController() : BaseTestClient("")
             .Build();
 
         // Act
-        var response = await PostRequest(REGISTER_CONTACT, request, token);
+        var response = await PostRequest(REGISTER_DDD, request, token);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
     }
 
     [Fact]
-    public async Task UserController_Unauthorized_WhenInvalidToken()
+    public async Task RegionDDDController_Unauthorized_WhenInvalidToken()
     {
         // Arrange
         var token = string.Empty;
@@ -37,7 +37,7 @@ public class RegionDDDController() : BaseTestClient("")
             .Build();
 
         // Act
-        var response = await PostRequest(REGISTER_CONTACT, request, token);
+        var response = await PostRequest(REGISTER_DDD, request, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
@@ -47,7 +47,7 @@ public class RegionDDDController() : BaseTestClient("")
     }
 
     [Fact]
-    public async Task UserController_Bad_WhenInvalidDDD()
+    public async Task RegionDDDController_Bad_WhenInvalidDDD()
     {
         // Arrange
         var user = Factory.RecoverUser();
@@ -60,7 +60,7 @@ public class RegionDDDController() : BaseTestClient("")
             .Build();
 
         // Act
-        var response = await PostRequest(REGISTER_CONTACT, request, token);
+        var response = await PostRequest(REGISTER_DDD, request, token);
 
         // Assert
         var result = await response.Content.ReadAsStringAsync();
