@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
-      - 'release/*'
-      - 'feature/*'
 
 jobs:
   build:
@@ -23,25 +20,20 @@ jobs:
         dotnet-version: '8.x'
 
     - name: Restore dependencies
-      run: |
-        find . -name '*.csproj' | xargs dotnet restore
+      run: dotnet restore path/to/your-solution.sln
 
     - name: Build the project
-      run: |
-        find . -name '*.csproj' | xargs dotnet build --no-restore --configuration Release
+      run: dotnet build path/to/your-solution.sln --no-restore --configuration Release
 
     - name: Run unit tests
-      run: |
-        find . -name '*.csproj' | xargs dotnet test --no-build --configuration Release --filter Category!=Integration --logger "trx;LogFileName=unit-test-results.trx"
+      run: dotnet test path/to/your-solution.sln --no-build --configuration Release --filter Category!=Integration --logger "trx;LogFileName=unit-test-results.trx"
 
     - name: Run integration tests
-      run: |
-        find . -name '*.csproj' | xargs dotnet test --no-build --configuration Release --filter Category=Integration --logger "trx;LogFileName=integration-test-results.trx"
+      run: dotnet test path/to/your-solution.sln --no-build --configuration Release --filter Category=Integration --logger "trx;LogFileName=integration-test-results.trx"
 
     - name: Publish the project
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
-      run: |
-        find . -name '*.csproj' | xargs dotnet publish --no-build --configuration Release --output ${{ github.workspace }}/publish
+      run: dotnet publish path/to/your-solution.sln --no-build --configuration Release --output ${{ github.workspace }}/publish
 
     - name: Upload artifact
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
