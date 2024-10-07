@@ -25,7 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Exceptions
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Tests", "Tech.Challenge.I.Tests\Tech.Challenge.I.Tests.csproj", "{8D4B3934-2C45-40B7-BD3D-D92EC41B5423}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tech.Challenge.I.Integration.Tests", "Tech.Challenge.I.Integration.Tests\Tech.Challenge.I.Integration.Tests.csproj", "{AE738FE2-1170-4201-83AC-591E6708677D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Integration.Tests", "Tech.Challenge.I.Integration.Tests\Tech.Challenge.I.Integration.Tests.csproj", "{AE738FE2-1170-4201-83AC-591E6708677D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionitens", "solutionitens", "{6213EBC2-3A6F-4F14-B93E-7B4B6F7713CD}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Users\Natan\Desktop\pos\docker-compose.yaml = ..\..\..\Users\Natan\Desktop\pos\docker-compose.yaml
+		..\..\..\Users\Natan\Desktop\pos\Dockerfile = ..\..\..\Users\Natan\Desktop\pos\Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
