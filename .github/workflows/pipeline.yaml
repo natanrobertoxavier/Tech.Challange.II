@@ -42,9 +42,6 @@ jobs:
         name: drop
         path: ${{ github.workspace }}/publish
 
-    - name: Change directory to where Dockerfile is located
-      run: cd Tech.Challenge.I
-
     - name: Copy appsettings.json
       run: cp /home/natan/appsettings/appsettings.json Tech.Challenge.I/appsettings.json
 
@@ -52,6 +49,9 @@ jobs:
       run: |
         cd Tech.Challenge.I && sudo docker build -t tech-challenge:latest .
 
+    - name: Check current user
+      run: whoami
+      
     - name: Deploy using Docker Compose
       run: |
-        cd Tech.Challenge.I && docker-compose -f docker-compose.yaml up -d --build
+        cd Tech.Challenge.I && sudo docker-compose -f docker-compose.yaml up -d --build
