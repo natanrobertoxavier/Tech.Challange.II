@@ -29,7 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Integratio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionfiles", "solutionfiles", "{F0FF8C25-89BC-4CF3-A8D4-D5467606830C}"
 	ProjectSection(SolutionItems) = preProject
-		Dockerfile.txt = Dockerfile.txt
+		docker-compose.yaml = docker-compose.yaml
+		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Global
