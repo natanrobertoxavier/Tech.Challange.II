@@ -52,7 +52,7 @@ jobs:
       run: cp /home/natan/appsettings/appsettings.json ${{ github.workspace }}/publish/appsettings.json
 
     - name: Replace appsettings tech.challenge
-      run: cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.I/Tech.Challeng.I.Api/appsettings.json
+      run: cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.I/Tech.Challenge.I.Api/appsettings.json
     
     - name: Verify appsettings
       run: ls -l Tech.Challenge.I
