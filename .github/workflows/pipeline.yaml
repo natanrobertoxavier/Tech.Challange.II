@@ -54,4 +54,4 @@ jobs:
 
     - name: Deploy using Docker Compose
       run: |
-        sudo docker-compose -f docker-compose.yml up -d --build
+        docker-compose -f docker-compose.yml up -d --build
