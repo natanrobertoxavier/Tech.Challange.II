@@ -8,4 +8,4 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "HML"
     volumes:
-      - /home/natan/appsettings/appsettings.json Tech.Challenge.I/appsettings.json:/app/appsettings.json
+      - /home/natan/appsettings/appsettings.json:./Tech.Challenge.I/appsettings.json:/app/appsettings.json
