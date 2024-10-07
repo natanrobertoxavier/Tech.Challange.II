@@ -41,3 +41,11 @@ jobs:
       with:
         name: drop
         path: ${{ github.workspace }}/publish
+
+    - name: Build Docker image
+      run: |
+        docker build -t tech-challenge-II:latest .
+
+    - name: Deploy using Docker Compose
+      run: |
+        docker-compose -f docker-compose.yml up -d --build
