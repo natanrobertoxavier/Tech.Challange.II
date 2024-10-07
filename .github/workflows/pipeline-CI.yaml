@@ -1,0 +1,51 @@
+name: .NET Build, Unit, and Integration Tests, and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build, Test and Publish
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.x'
+
+    - name: Restore dependencies
+      run: dotnet restore Tech.Challenge.I/Tech.Challenge.I.sln
+
+    - name: Build the project
+      run: dotnet build Tech.Challenge.I/Tech.Challenge.I.sln --no-restore --configuration Release
+
+    - name: Run unit tests
+      run: dotnet test Tech.Challenge.I/Tech.Challenge.I.Tests/Tech.Challenge.I.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-results.trx"
+
+    - name: Run integration tests
+      run: dotnet test Tech.Challenge.I/Tech.Challenge.I.Integration.Tests/Tech.Challenge.I.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-results.trx"
+
+    - name: Publish the project
+      if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
+      run: dotnet publish Tech.Challenge.I/Tech.Challenge.I.sln --no-build --configuration Release --output ${{ github.workspace }}/publish
+
+    - name: Upload artifact
+      if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
+      uses: actions/upload-artifact@v3
+      with:
+        name: drop
+        path: ${{ github.workspace }}/publish
+
+    - name: Build Docker image
+      run: |
+        docker build -t tech-challenge-II:latest .
+
+    - name: Deploy using Docker Compose
+      run: |
+        docker-compose -f docker-compose.yml up -d --build
