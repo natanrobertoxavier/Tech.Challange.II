@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Tests", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tech.Challenge.I.Integration.Tests", "Tech.Challenge.I.Integration.Tests\Tech.Challenge.I.Integration.Tests.csproj", "{AE738FE2-1170-4201-83AC-591E6708677D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Integration.Tests", "Tech.Challenge.I.Integration.Tests\Tech.Challenge.I.Integration.Tests.csproj", "{AE738FE2-1170-4201-83AC-591E6708677D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionfiles", "solutionfiles", "{F0FF8C25-89BC-4CF3-A8D4-D5467606830C}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yaml = docker-compose.yaml
