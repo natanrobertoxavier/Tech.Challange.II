@@ -41,6 +41,9 @@ jobs:
       with:
         name: drop
         path: ${{ github.workspace }}/publish
+        
+    - name: Change directory to where Dockerfile is located
+      run: cd Tech.Challenge.I
 
     - name: Build Docker image
       run: |
