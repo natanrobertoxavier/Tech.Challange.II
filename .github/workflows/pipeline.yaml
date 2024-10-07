@@ -25,6 +25,9 @@ jobs:
     - name: Build the project
       run: dotnet build Tech.Challenge.I/Tech.Challenge.I.sln --no-restore --configuration Release
 
+    - name: Check current user
+      run: whoami
+
     - name: Run unit tests
       run: dotnet test Tech.Challenge.I/Tech.Challenge.I.Tests/Tech.Challenge.I.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-results.trx"
 
