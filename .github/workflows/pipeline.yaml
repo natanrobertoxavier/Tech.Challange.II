@@ -51,7 +51,7 @@ jobs:
 
     - name: Check current user
       run: whoami
-      
+
     - name: Deploy using Docker Compose
       run: |
-        cd Tech.Challenge.I && sudo docker-compose -f docker-compose.yaml up -d --build
+        cd Tech.Challenge.I && docker-compose -f docker-compose.yaml up -d --build
