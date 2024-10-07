@@ -44,7 +44,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        sudo docker build -t tech-challenge-II:latest .
+        sudo docker build -t tech-challenge:latest .
 
     - name: Deploy using Docker Compose
       run: |
