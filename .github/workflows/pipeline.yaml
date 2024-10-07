@@ -44,6 +44,9 @@ jobs:
 
     - name: Copy appsettings.json
       run: cp /home/natan/appsettings/appsettings.json Tech.Challenge.I/appsettings.json
+    
+    - name: Verify appsettings
+      run: ls -l Tech.Challenge.I
 
     - name: Build Docker image
       run: |
