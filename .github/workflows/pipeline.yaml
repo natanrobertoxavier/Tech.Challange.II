@@ -47,10 +47,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        cd Tech.Challenge.I && sudo docker build -t tech-challenge:latest .
-
-    - name: Check current user
-      run: whoami
+        cd Tech.Challenge.I && docker build -t tech-challenge:latest .
 
     - name: Deploy using Docker Compose
       run: |
