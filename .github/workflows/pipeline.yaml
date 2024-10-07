@@ -22,9 +22,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore Tech.Challenge.I/Tech.Challenge.I.sln
 
-    - name: List files in the directory
-      run: ls -la
-
     - name: Build the project
       run: dotnet build Tech.Challenge.I/Tech.Challenge.I.sln --no-restore --configuration Release
 
@@ -45,14 +42,11 @@ jobs:
         name: drop
         path: ${{ github.workspace }}/publish
 
-    - name: List files in the directory
-      run: ls -la
-
     - name: Change directory to where Dockerfile is located
       run: cd Tech.Challenge.I
 
-    - name: List files in the directory
-      run: ls -la
+    - name: Copy appsettings.json
+      run: cp /home/natan/appsettings/appsettings.json Tech.Challenge.I/appsettings.json
 
     - name: Build Docker image
       run: |
