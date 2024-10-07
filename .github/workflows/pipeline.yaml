@@ -43,7 +43,7 @@ jobs:
         path: ${{ github.workspace }}/publish
 
     - name: Copy appsettings.json
-      run: cp /home/natan/appsettings/appsettings.json Tech.Challenge.I/appsettings.json
+      run: cp -f /home/natan/appsettings/appsettings.json Tech.Challenge.I/Tech.Challenge.I/appsettings.json
     
     - name: Verify appsettings
       run: ls -l Tech.Challenge.I
