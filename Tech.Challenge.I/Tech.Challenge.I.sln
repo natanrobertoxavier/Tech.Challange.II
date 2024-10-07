@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Exceptions
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Tests", "Tech.Challenge.I.Tests\Tech.Challenge.I.Tests.csproj", "{8D4B3934-2C45-40B7-BD3D-D92EC41B5423}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tech.Challenge.I.Integration.Tests", "Tech.Challenge.I.Integration.Tests\Tech.Challenge.I.Integration.Tests.csproj", "{AE738FE2-1170-4201-83AC-591E6708677D}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tech.Challenge.I.Integration.Tests", "Tech.Challenge.I.Integration.Tests\Tech.Challenge.I.Integration.Tests.csproj", "{AE738FE2-1170-4201-83AC-591E6708677D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionfiles", "solutionfiles", "{F0FF8C25-89BC-4CF3-A8D4-D5467606830C}"
@@ -85,6 +87,7 @@ Global
 		{BE42C469-6CA0-43C4-8ED0-0A28E7024793} = {F0FA2AF6-91AE-4D9D-9940-BDEA644AD147}
 		{0888017F-FC70-45B7-8609-829AF8C5E270} = {F0FA2AF6-91AE-4D9D-9940-BDEA644AD147}
 		{8D4B3934-2C45-40B7-BD3D-D92EC41B5423} = {65DCC3D4-F360-47C5-8D73-431AC1CB0700}
+		{AE738FE2-1170-4201-83AC-591E6708677D} = {65DCC3D4-F360-47C5-8D73-431AC1CB0700}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29C7EE9F-8400-400B-A042-1A30A891ED38}

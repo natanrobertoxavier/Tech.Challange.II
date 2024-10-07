@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Tech.Challenge.I.Api.Controllers;
+using Tech.Challenge.I.Api.Controllers.v1;
 using Tech.Challenge.I.Application.UseCase.User.Login;
 using Tech.Challenge.I.Communication.Request;
 using Tech.Challenge.I.Communication.Response;

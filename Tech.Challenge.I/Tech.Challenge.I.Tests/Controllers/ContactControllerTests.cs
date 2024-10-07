@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Tech.Challenge.I.Api.Controllers;
+using Tech.Challenge.I.Api.Controllers.v1;
 using Tech.Challenge.I.Application.UseCase.Contact.Delete;
 using Tech.Challenge.I.Application.UseCase.Contact.Recover;
 using Tech.Challenge.I.Application.UseCase.Contact.Register;
@@ -327,31 +327,10 @@ public class ContactControllerTests
         var controller = new ContactController();
 
         // Act
-        var result = await controller.Update(id, request, mockUseCase.Object) as OkResult;
+        var result = await controller.Update(id, request, mockUseCase.Object) as NoContentResult;
 
         // Assert
-        Assert.NotNull(result);
-        Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
-    }
-
-    [Fact]
-    public async Task Update_ReturnsNoContentResult_WhenIdIsInvalid()
-    {
-        // Arrange
-        var mockUseCase = new Mock<IUpdateContactUseCase>();
-
-        Guid invalidId = Guid.Empty;
-
-        var request = new RequestContactJson { FirstName = "John", LastName = "Doe", Email = "john.doe@example.com", PhoneNumber = "98888-8888", DDD = 11 };
-
-        var controller = new ContactController();
-
-        // Act
-        var result = await controller.Update(invalidId, request, mockUseCase.Object) as OkResult;
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
+        Assert.Equal(StatusCodes.Status204NoContent, result.StatusCode);
     }
 
     [Fact]

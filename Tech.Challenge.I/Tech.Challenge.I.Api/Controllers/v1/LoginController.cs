@@ -3,7 +3,7 @@ using Tech.Challenge.I.Application.UseCase.User.Login;
 using Tech.Challenge.I.Communication.Request;
 using Tech.Challenge.I.Communication.Response;
 
-namespace Tech.Challenge.I.Api.Controllers;
+namespace Tech.Challenge.I.Api.Controllers.v1;
 
 public class LoginController : TechChallengeController
 {

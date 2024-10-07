@@ -10,6 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="FluentAssertions" Version="6.12.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.4" />
     <PackageReference Include="Moq" Version="4.20.70" />
@@ -26,6 +37,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tech.Challenge.I.Api\Tech.Challenge.I.Api.csproj" />
+    <ProjectReference Include="..\Tech.Challenge.I.Communication\Tech.Challenge.I.Communication.csproj" />
+    <ProjectReference Include="..\Tech.Challenge.I.Exceptions\Tech.Challenge.I.Exceptions.csproj" />
+    <ProjectReference Include="..\Tech.Challenge.I.Infrastructure\Tech.Challenge.I.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

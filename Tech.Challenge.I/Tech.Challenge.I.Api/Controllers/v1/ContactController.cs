@@ -10,7 +10,7 @@ using Tech.Challenge.I.Communication.Request.Enum;
 using Tech.Challenge.I.Communication.Response;
 using Tech.Challenge.I.Exceptions;
 
-namespace Tech.Challenge.I.Api.Controllers;
+namespace Tech.Challenge.I.Api.Controllers.v1;
 
 [ServiceFilter(typeof(AuthenticatedUserAttribute))]
 public class ContactController : TechChallengeController
@@ -58,7 +58,7 @@ public class ContactController : TechChallengeController
     }
 
     [HttpGet]
-    [Route("Contacts/By-DDD")]
+    [Route("contacts/by-ddd")]
     [ProducesResponseType(typeof(IEnumerable<ResponseContactJson>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> RecoverContactsByDDD(
@@ -83,7 +83,7 @@ public class ContactController : TechChallengeController
     {
         await useCase.Execute(id, request);
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete]
