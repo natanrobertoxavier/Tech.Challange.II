@@ -42,20 +42,12 @@ jobs:
         name: drop
         path: ${{ github.workspace }}/publish
 
-    - name: List published
-      run: ls -l ${{ github.workspace }}/publish
-
-    - name: List published files Tech.Challenge.I.Api
-      run: ls -l ${{ github.workspace }}/publish/Tech.Challenge.I.Api
-
-    - name: Replace appsettings publisher
-      run: cp /home/natan/appsettings/appsettings.json ${{ github.workspace }}/publish/appsettings.json
-
     - name: Replace appsettings tech.challenge
       run: cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.I/Tech.Challenge.I.Api/appsettings.json
     
-    - name: Verify appsettings
-      run: ls -l Tech.Challenge.I
+    - name: Stop and remove existing containers
+      run: |
+        cd Tech.Challenge.I && docker-compose -f docker-compose.yaml down
 
     - name: Build Docker image
       run: |
