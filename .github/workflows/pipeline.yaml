@@ -59,7 +59,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        cd Tech.Challenge.I && sudo docker build -t myapp:latest .
+        cd Tech.Challenge.I && sudo docker build -t techchallengei:latest .
 
     - name: Deploy using Docker Compose
       run: |

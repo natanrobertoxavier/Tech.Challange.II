@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   myapp:
-    image: myapp:latest
+    image: techchallengei:latest
+    container_name: tech_challenge_container
     ports:
       - "8080:80"
     environment:
