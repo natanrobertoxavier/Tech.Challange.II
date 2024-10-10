@@ -20,7 +20,6 @@ jobs:
         zip -r /home/natan/backups/tech-challenge-backup-$TIMESTAMP.zip ${{ github.workspace }} $LOG_FILE
         rm $LOG_FILE
 
-    steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
