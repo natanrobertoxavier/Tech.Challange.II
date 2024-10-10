@@ -23,11 +23,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Check running user
+      run: whoami
+
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.x'
-        install-dir: ${{ github.workspace }}/.dotnet
 
     - name: Restore dependencies
       run: dotnet restore Tech.Challenge.I/Tech.Challenge.I.sln
