@@ -11,9 +11,13 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    - name: Clear Cache
+      run: |
+        rm -rf ~/.cache
+
     - name: Backup existing code and logs
       run: |
-        TIMESTAMP=$(date +"%Y%m%d%H%M%S")
+        TIMESTAMP=$(date +"%Y-%m-%d-%H:%M:%S")
         CONTAINER_NAME="tech_challenge_container"
         LOG_FILE="/home/natan/backups/tech-challenge-logs-$TIMESTAMP.log"
         docker logs $CONTAINER_NAME > $LOG_FILE        
