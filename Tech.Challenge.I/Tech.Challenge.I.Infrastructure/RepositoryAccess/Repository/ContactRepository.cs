@@ -15,9 +15,8 @@ public class ContactRepository(
 
     public async Task Add(Contact contact) =>
         await _context.Contacts.AddAsync(contact);
-
-    public async Task<IEnumerable<Contact>> RecoverAllAsync() =>
-        await _context.Contacts.AsNoTracking().ToListAsync();
+    public async Task<IEnumerable<Contact>> RecoverAllAsync(int pageNumber, int pageSize) =>
+    await _context.Contacts.AsNoTracking().Skip((pageNumber - 1) * pageSize).Take(pageSize).OrderBy(o => o.RegistrationDate).ToListAsync();
 
     public async Task<IEnumerable<Contact>> RecoverByDDDIdAsync(Guid id) =>
         await _context.Contacts.Where(c => c.DDDId.Equals(id)).ToListAsync();

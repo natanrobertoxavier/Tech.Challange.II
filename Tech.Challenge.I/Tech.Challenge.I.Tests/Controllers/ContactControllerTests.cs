@@ -17,6 +17,9 @@ using Tech.Challenge.I.Exceptions.ExceptionBase;
 namespace Tech.Challenge.I.Tests.Controllers;
 public class ContactControllerTests
 {
+    private int pageNumber = 1;
+    private int pageSize = 10;
+
     [Fact]
     public async Task RegisterContact_ReturnsCreatedResult_WhenRequestIsValid()
     {
@@ -123,7 +126,7 @@ public class ContactControllerTests
             new() { FirstName = "Jane", LastName = "Doe", Email = "jane.doe@example.com", PhoneNumber = "97777-7777", ContactId = contactId, DDD = 11, Region = RegionResponseEnum.Sudeste.GetDescription() }
         };
 
-        mockUseCase.Setup(useCase => useCase.Execute())
+        mockUseCase.Setup(useCase => useCase.Execute(pageNumber, pageSize))
                    .ReturnsAsync(response);
 
         var controller = new ContactController();
@@ -143,7 +146,7 @@ public class ContactControllerTests
         // Arrange
         var mockUseCase = new Mock<IRecoverContactUseCase>();
 
-        mockUseCase.Setup(useCase => useCase.Execute())
+        mockUseCase.Setup(useCase => useCase.Execute(pageNumber, pageSize))
                    .ReturnsAsync(Enumerable.Empty<ResponseContactJson>());
 
         var controller = new ContactController();
@@ -162,7 +165,7 @@ public class ContactControllerTests
         // Arrange
         var mockUseCase = new Mock<IRecoverContactUseCase>();
 
-        mockUseCase.Setup(useCase => useCase.Execute())
+        mockUseCase.Setup(useCase => useCase.Execute(pageNumber, pageSize))
                    .ThrowsAsync(new UnauthorizedAccessException("Usuário sem permissão"));
 
         var controller = new ContactController();

@@ -5,6 +5,7 @@ using Tech.Challenge.I.Domain.Repositories.Contact;
 using Tech.Challenge.I.Domain.Repositories.Factories;
 using Tech.Challenge.I.Exceptions.ExceptionBase;
 using Tech.Challenge.I.Exceptions;
+using Microsoft.Extensions.Options;
 
 namespace Tech.Challenge.I.Application.UseCase.Contact.Recover;
 public class RecoverContactUseCase(
@@ -14,9 +15,11 @@ public class RecoverContactUseCase(
     private readonly IContactReadOnlyRepository _contactReadOnlyRepository = contactReadOnlyRepository;
     private readonly IRegionDDDReadOnlyRepositoryFactory _repositoryFactory = repositoryFactory;
 
-    public async Task<IEnumerable<ResponseContactJson>> Execute()
+    public async Task<IEnumerable<ResponseContactJson>> Execute(int pageNumber, int pageSize)
     {
-        var entities = await _contactReadOnlyRepository.RecoverAllAsync();
+        (pageNumber, pageSize) = ValidatePagination(pageNumber, pageSize);
+
+        var entities = await _contactReadOnlyRepository.RecoverAllAsync(pageNumber, pageSize);
 
         return await MapToResponseContactJson(entities);
     }
@@ -94,4 +97,7 @@ public class RecoverContactUseCase(
             return regionDDD.Id;
         }
     }
+
+    private static (int, int) ValidatePagination(int pageNumber, int pageSize) =>
+        ((pageNumber < 1) ? 1 : pageNumber, (pageSize < 1) ? 1 : pageSize);
 }
