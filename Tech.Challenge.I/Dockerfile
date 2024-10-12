@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
-
+ 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /main
 COPY ["Tech.Challenge.I.Api/Tech.Challenge.I.Api.csproj", "Tech.Challenge.I.Api/"]
