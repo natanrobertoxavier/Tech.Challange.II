@@ -16,6 +16,8 @@ public class RecoverContactUseCaseTests
     private readonly Mock<IRegionDDDReadOnlyRepository> _mockRegionRepository;
     private readonly Mock<IServiceScope> _mockScope;
     private readonly RecoverContactUseCase _useCase;
+    private int pageNumber = 1;
+    private int pageSize = 10;
 
     public RecoverContactUseCaseTests()
     {
@@ -45,7 +47,7 @@ public class RecoverContactUseCaseTests
         var regionDDD = new Challenge.I.Domain.Entities.RegionDDD { DDD = 11, Region = "Sudeste" };
 
         _mockContactReadOnlyRepository
-            .Setup(repo => repo.RecoverAllAsync())
+            .Setup(repo => repo.RecoverAllAsync(pageNumber, pageSize))
             .ReturnsAsync(contacts);
 
         _mockRegionRepository
@@ -53,12 +55,12 @@ public class RecoverContactUseCaseTests
             .ReturnsAsync(regionDDD);
 
         // Act
-        var result = await _useCase.Execute();
+        var result = await _useCase.Execute(pageNumber, pageSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotEmpty(result);
-        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverAllAsync(), Times.Once);
+        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverAllAsync(pageNumber, pageSize), Times.Once);
         _mockRegionRepository.Verify(repo => repo.RecoverByIdAsync(regionDDDId), Times.Once);
     }
 
@@ -69,16 +71,16 @@ public class RecoverContactUseCaseTests
         var contacts = new List<Challenge.I.Domain.Entities.Contact>();
 
         _mockContactReadOnlyRepository
-            .Setup(repo => repo.RecoverAllAsync())
+            .Setup(repo => repo.RecoverAllAsync(pageNumber, pageSize))
             .ReturnsAsync(contacts);
 
         // Act
-        var result = await _useCase.Execute();
+        var result = await _useCase.Execute(pageNumber, pageSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.Empty(result);
-        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverAllAsync(), Times.Once);
+        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverAllAsync(pageNumber, pageSize), Times.Once);
     }
 
     [Fact]
