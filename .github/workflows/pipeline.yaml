@@ -11,10 +11,6 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Clear Cache
-      run: |
-        rm -rf ~/.cache
-
     - name: Backup existing code and logs
       run: |
         TIMESTAMP=$(date +"%Y-%m-%d-%H:%M:%S")
@@ -50,13 +46,6 @@ jobs:
     - name: Publish the project
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
       run: dotnet publish Tech.Challenge.I/Tech.Challenge.I.sln --no-build --configuration Release --output ${{ github.workspace }}/publish
-
-    #- name: Upload artifact
-    #  if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: drop
-    #    path: ${{ github.workspace }}/publish
 
     - name: Replace appsettings tech.challenge
       run: cp -f /home/natan/appsettings/appsettings.json ${{ github.workspace }}/Tech.Challenge.I/Tech.Challenge.I.Api/appsettings.json
