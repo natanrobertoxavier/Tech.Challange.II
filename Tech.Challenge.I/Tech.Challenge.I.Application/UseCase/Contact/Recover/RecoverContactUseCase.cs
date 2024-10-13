@@ -1,11 +1,11 @@
-﻿using Tech.Challenge.I.Communication;
+﻿using Tech.Challenge.I.Application.Services.Tools;
+using Tech.Challenge.I.Communication;
 using Tech.Challenge.I.Communication.Request.Enum;
 using Tech.Challenge.I.Communication.Response;
 using Tech.Challenge.I.Domain.Repositories.Contact;
 using Tech.Challenge.I.Domain.Repositories.Factories;
-using Tech.Challenge.I.Exceptions.ExceptionBase;
 using Tech.Challenge.I.Exceptions;
-using Microsoft.Extensions.Options;
+using Tech.Challenge.I.Exceptions.ExceptionBase;
 
 namespace Tech.Challenge.I.Application.UseCase.Contact.Recover;
 public class RecoverContactUseCase(
@@ -17,27 +17,31 @@ public class RecoverContactUseCase(
 
     public async Task<IEnumerable<ResponseContactJson>> Execute(int pageNumber, int pageSize)
     {
-        (pageNumber, pageSize) = ValidatePagination(pageNumber, pageSize);
+        (pageNumber, pageSize) = Utilities.ValidatePagination(pageNumber, pageSize);
 
         var entities = await _contactReadOnlyRepository.RecoverAllAsync(pageNumber, pageSize);
 
         return await MapToResponseContactJson(entities);
     }
 
-    public async Task<IEnumerable<ResponseContactJson>> Execute(RegionRequestEnum region)
+    public async Task<IEnumerable<ResponseContactJson>> Execute(RegionRequestEnum region, int pageNumber, int pageSize)
     {
         var dddIds = await RecoverDDDIdsByRegion(region.GetDescription());
 
-        var entities = await _contactReadOnlyRepository.RecoverAllByDDDIdAsync(dddIds);
+        (pageNumber, pageSize) = Utilities.ValidatePagination(pageNumber, pageSize);
+
+        var entities = await _contactReadOnlyRepository.RecoverAllByDDDIdAsync(dddIds, pageNumber, pageSize);
 
         return await MapToResponseContactJson(entities);
     }
 
-    public async Task<IEnumerable<ResponseContactJson>> Execute(int ddd)
+    public async Task<IEnumerable<ResponseContactJson>> Execute(int ddd, int pageNumber, int pageSize)
     {
         var regionIds = await RecoverRegionIdByDDD(ddd);
 
-        var entities = await _contactReadOnlyRepository.RecoverByDDDIdAsync(regionIds);
+        (pageNumber, pageSize) = Utilities.ValidatePagination(pageNumber, pageSize);
+
+        var entities = await _contactReadOnlyRepository.RecoverByDDDIdAsync(regionIds, pageNumber, pageSize);
 
         if (entities is not null &&
             entities.Any())
@@ -97,7 +101,4 @@ public class RecoverContactUseCase(
             return regionDDD.Id;
         }
     }
-
-    private static (int, int) ValidatePagination(int pageNumber, int pageSize) =>
-        ((pageNumber < 1) ? 1 : pageNumber, (pageSize < 1) ? 1 : pageSize);
 }

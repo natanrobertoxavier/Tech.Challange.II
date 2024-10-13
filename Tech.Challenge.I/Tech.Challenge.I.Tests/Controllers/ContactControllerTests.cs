@@ -17,8 +17,8 @@ using Tech.Challenge.I.Exceptions.ExceptionBase;
 namespace Tech.Challenge.I.Tests.Controllers;
 public class ContactControllerTests
 {
-    private int pageNumber = 1;
-    private int pageSize = 10;
+    private readonly int pageNumber = 1;
+    private readonly int pageSize = 10;
 
     [Fact]
     public async Task RegisterContact_ReturnsCreatedResult_WhenRequestIsValid()
@@ -191,7 +191,7 @@ public class ContactControllerTests
             new() { FirstName = "Jane", LastName = "Doe", Email = "jane.doe@example.com", PhoneNumber = "97777-7777", ContactId = Guid.NewGuid(), DDD = 13, Region = RegionResponseEnum.Sudeste.GetDescription() }
         };
 
-        mockUseCase.Setup(useCase => useCase.Execute(region))
+        mockUseCase.Setup(useCase => useCase.Execute(region, pageNumber, pageSize))
                    .ReturnsAsync(response);
 
         var controller = new ContactController();
@@ -212,7 +212,7 @@ public class ContactControllerTests
         var mockUseCase = new Mock<IRecoverContactUseCase>();
         var region = RegionRequestEnum.Sul;
 
-        mockUseCase.Setup(useCase => useCase.Execute(region))
+        mockUseCase.Setup(useCase => useCase.Execute(region, pageNumber, pageSize))
                    .ReturnsAsync(Enumerable.Empty<ResponseContactJson>());
 
         var controller = new ContactController();
@@ -232,7 +232,7 @@ public class ContactControllerTests
         var mockUseCase = new Mock<IRecoverContactUseCase>();
         var region = RegionRequestEnum.CentroOeste;
 
-        mockUseCase.Setup(useCase => useCase.Execute(region))
+        mockUseCase.Setup(useCase => useCase.Execute(region, pageNumber, pageSize))
                    .ThrowsAsync(new UnauthorizedAccessException("Usuário sem permissão"));
 
         var controller = new ContactController();
@@ -260,7 +260,7 @@ public class ContactControllerTests
             new() { FirstName = "Jane", LastName = "Doe", Email = "jane.doe@example.com", PhoneNumber = "97777-7777", ContactId = contactId, DDD = ddd, Region = RegionResponseEnum.Sudeste.GetDescription() }
         };
 
-        mockUseCase.Setup(useCase => useCase.Execute(ddd))
+        mockUseCase.Setup(useCase => useCase.Execute(ddd, pageNumber, pageSize))
                    .ReturnsAsync(response);
 
         var controller = new ContactController();
@@ -281,7 +281,7 @@ public class ContactControllerTests
         var mockUseCase = new Mock<IRecoverContactUseCase>();
         int ddd = 21;
 
-        mockUseCase.Setup(useCase => useCase.Execute(ddd))
+        mockUseCase.Setup(useCase => useCase.Execute(ddd, pageNumber, pageSize))
                    .ReturnsAsync(Enumerable.Empty<ResponseContactJson>());
 
         var controller = new ContactController();
@@ -301,7 +301,7 @@ public class ContactControllerTests
         var mockUseCase = new Mock<IRecoverContactUseCase>();
         int ddd = 11;
 
-        mockUseCase.Setup(useCase => useCase.Execute(ddd))
+        mockUseCase.Setup(useCase => useCase.Execute(ddd, pageNumber, pageSize))
                    .ThrowsAsync(new UnauthorizedAccessException("Usuário sem permissão"));
 
         var controller = new ContactController();

@@ -102,7 +102,7 @@ public class RecoverContactUseCaseTests
         };
 
         _mockContactReadOnlyRepository
-            .Setup(repo => repo.RecoverAllByDDDIdAsync(regionDDDId))
+            .Setup(repo => repo.RecoverAllByDDDIdAsync(regionDDDId, pageNumber, pageSize))
             .ReturnsAsync(contacts);
 
         _mockRegionRepository
@@ -114,12 +114,12 @@ public class RecoverContactUseCaseTests
             .ReturnsAsync(regionDDD[0]);
 
         // Act
-        var result = await _useCase.Execute(RegionRequestEnum.Sudeste);
+        var result = await _useCase.Execute(RegionRequestEnum.Sudeste, pageNumber, pageSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotEmpty(result);
-        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverAllByDDDIdAsync(regionDDDId), Times.Once);
+        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverAllByDDDIdAsync(regionDDDId, pageNumber, pageSize), Times.Once);
         _mockRegionRepository.Verify(repo => repo.RecoverByIdAsync(regionDDDId[0]), Times.Once);
     }
 
@@ -138,17 +138,17 @@ public class RecoverContactUseCaseTests
             .ReturnsAsync(new List<Challenge.I.Domain.Entities.RegionDDD>());
 
         _mockContactReadOnlyRepository
-            .Setup(repo => repo.RecoverAllByDDDIdAsync(dddIds))
+            .Setup(repo => repo.RecoverAllByDDDIdAsync(dddIds, pageNumber, pageSize))
             .ReturnsAsync(contacts);
 
         // Act
-        var result = await _useCase.Execute(region);
+        var result = await _useCase.Execute(region, pageNumber, pageSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.Empty(result);
         _mockRegionRepository.Verify(repo => repo.RecoverListDDDByRegionAsync(regionDescription), Times.Once);
-        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverAllByDDDIdAsync(dddIds), Times.Once);
+        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverAllByDDDIdAsync(dddIds, pageNumber, pageSize), Times.Once);
     }
 
     [Fact]
@@ -177,7 +177,7 @@ public class RecoverContactUseCaseTests
             .ReturnsAsync(regionDDD);
 
         _mockContactReadOnlyRepository
-            .Setup(repo => repo.RecoverByDDDIdAsync(regionDDDId))
+            .Setup(repo => repo.RecoverByDDDIdAsync(regionDDDId, pageNumber, pageSize))
             .ReturnsAsync(contacts);
 
         _mockRegionRepository
@@ -185,12 +185,12 @@ public class RecoverContactUseCaseTests
             .ReturnsAsync(regionDDD);
 
         // Act
-        var result = await _useCase.Execute(ddd);
+        var result = await _useCase.Execute(ddd, pageNumber, pageSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.NotEmpty(result);
-        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverByDDDIdAsync(regionDDDId), Times.Once);
+        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverByDDDIdAsync(regionDDDId, pageNumber, pageSize), Times.Once);
         _mockRegionRepository.Verify(repo => repo.RecoverByDDDAsync(ddd), Times.Once);
     }
 
@@ -215,7 +215,7 @@ public class RecoverContactUseCaseTests
             .ReturnsAsync(regionDDD);
 
         _mockContactReadOnlyRepository
-            .Setup(repo => repo.RecoverByDDDIdAsync(regionDDDId))
+            .Setup(repo => repo.RecoverByDDDIdAsync(regionDDDId, pageNumber, pageSize))
             .ReturnsAsync((List<Challenge.I.Domain.Entities.Contact>)null);
 
         _mockRegionRepository
@@ -223,12 +223,12 @@ public class RecoverContactUseCaseTests
             .ReturnsAsync(regionDDD);
 
         // Act
-        var result = await _useCase.Execute(ddd);
+        var result = await _useCase.Execute(ddd, pageNumber, pageSize);
 
         // Assert
         Assert.NotNull(result);
         Assert.Empty(result);
-        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverByDDDIdAsync(regionDDDId), Times.Once);
+        _mockContactReadOnlyRepository.Verify(repo => repo.RecoverByDDDIdAsync(regionDDDId, pageNumber, pageSize), Times.Once);
         _mockRegionRepository.Verify(repo => repo.RecoverByDDDAsync(ddd), Times.Once);
     }
 }

@@ -5,6 +5,6 @@ namespace Tech.Challenge.I.Application.UseCase.Contact.Recover;
 public interface IRecoverContactUseCase
 {
     Task<IEnumerable<ResponseContactJson>> Execute(int pageNumber, int pageSize);
-    Task<IEnumerable<ResponseContactJson>> Execute(RegionRequestEnum region);
-    Task<IEnumerable<ResponseContactJson>> Execute(int ddd);
+    Task<IEnumerable<ResponseContactJson>> Execute(RegionRequestEnum region, int pageNumber, int pageSize);
+    Task<IEnumerable<ResponseContactJson>> Execute(int ddd, int pageNumber, int pageSize);
 }
