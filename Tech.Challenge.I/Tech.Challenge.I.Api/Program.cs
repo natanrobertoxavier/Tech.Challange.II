@@ -1,3 +1,4 @@
+using Prometheus;
 using Tech.Challenge.I.Api.Filters;
 using Tech.Challenge.I.Application;
 using Tech.Challenge.I.Application.Services.Automapper;
@@ -71,11 +72,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 UpdateDatabase();
+
+app.MapMetrics();
 
 app.MapControllers();
 
