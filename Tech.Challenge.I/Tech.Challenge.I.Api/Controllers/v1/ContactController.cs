@@ -49,9 +49,11 @@ public class ContactController : TechChallengeController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> RecoverContactsByRegion(
         [FromQuery][Required] RegionRequestEnum region,
-        [FromServices] IRecoverContactUseCase useCase)
+        [FromServices] IRecoverContactUseCase useCase,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var result = await useCase.Execute(region);
+        var result = await useCase.Execute(region, pageNumber, pageSize);
 
         if (result.Any())
             return Ok(result);
@@ -65,9 +67,11 @@ public class ContactController : TechChallengeController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> RecoverContactsByDDD(
         [FromQuery][Required] int ddd,
-        [FromServices] IRecoverContactUseCase useCase)
+        [FromServices] IRecoverContactUseCase useCase,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var result = await useCase.Execute(ddd);
+        var result = await useCase.Execute(ddd, pageNumber, pageSize);
 
         if (result.Any())
             return Ok(result);
